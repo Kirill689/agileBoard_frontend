@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import{ Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {addProjectTask} from "../../actions/taskActions";
+import classnames from "classnames"; 
 
-export default class AddTask extends Component {
+class AddTask extends Component {
 
     constructor(){
 
@@ -9,7 +13,7 @@ export default class AddTask extends Component {
 
         this.state = {
             summary:'',
-            acceptanceCriteria:'',
+            acceptance:'',
             status:''
         };
 
@@ -27,13 +31,12 @@ export default class AddTask extends Component {
         e.preventDefault();
         const newTask = {
             summary: this.state.summary,
-            acceptanceCriteria: this.state.acceptanceCriteria,
+            acceptance: this.state.acceptance,
             status: this.state.status
         }
-
-        console.log(newTask);
         
- 
+       console.log(newTask);
+       this.props.addProjectTask(newTask, this.props.history); 
     }
 
 
@@ -64,9 +67,9 @@ export default class AddTask extends Component {
                         <div className="form-group">
                             <textarea 
                             className="form-control form-control-lg"  
-                            value={this.state.taskAcceptance} 
+                            value={this.state.acceptance} 
                             onChange={this.onChange} 
-                            name="acceptanceCriteria"
+                            name="acceptance"
                             placeholder="Acceptance Criteria"></textarea>
                         </div>
 
@@ -93,3 +96,14 @@ export default class AddTask extends Component {
         )
     }
 }
+
+AddTask.propTypes = {
+    addProjectTask: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired 
+}
+
+const stateToProps = state => ({
+    errors: state.errors
+});
+
+export default connect(stateToProps, {addProjectTask}) (AddTask);

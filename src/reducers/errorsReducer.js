@@ -1,6 +1,6 @@
 import {GET_ERRORS} from '../actions/types';
 
-const innitialState = {error: "HEllo error"};
+const innitialState = {};
 
 export default function (state=innitialState, action) {
     switch(action.type){

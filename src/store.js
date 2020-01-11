@@ -9,6 +9,7 @@ const middleware = [thunk];
 
 
 const ReactReduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 let store;
 
 if(window.navigator.userAgent.includes('Chrome') && ReactReduxDevTools){
