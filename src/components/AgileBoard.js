@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import{ Link } from "react-router-dom";
 import TaskItem from './task/TaskItem';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {getBacklog} from "../actions/taskActions";
 
-export default class AgileBoard extends Component {
+class AgileBoard extends Component {
+
+    componentDidMount(){
+        this.props.getBacklog();
+    }
+
     render() {
         return (
 
@@ -60,3 +68,14 @@ export default class AgileBoard extends Component {
         )
     }
 }
+
+AgileBoard.propTypes = {
+    getBacklog: PropTypes.func.isRequired,
+    tasks: PropTypes.object.isRequired
+}
+
+const stateToProps = state => ({
+    tasks: state.tasks
+})
+
+export default connect (stateToProps, {getBacklog}) (AgileBoard);
