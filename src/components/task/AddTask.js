@@ -11,10 +11,12 @@ class AddTask extends Component {
 
         super();
 
+        //The fields names need to be same as blocks names
         this.state = {
-            summary:'',
+            summary:'', 
             acceptance:'',
-            status:''
+            status:'',
+            errors:{}
         };
 
         this.onChange = this.onChange.bind(this);
@@ -22,8 +24,14 @@ class AddTask extends Component {
 
     };
 
+    componentWillReceiveProps(nextPr){
+        if(nextPr.errors){
+            this.setState({errors:nextPr.errors});
+        }
+    }
 
     onChange(e){
+        //             nblock name/field: value (of this.block);
         this.setState({ [e.target.name] : e.target.value}); 
     };
 
@@ -41,6 +49,9 @@ class AddTask extends Component {
 
 
     render() {
+
+        const { errors } = this.state;
+
         return (
             <div className="addProjectTask">
         <div className="container">
@@ -56,12 +67,21 @@ class AddTask extends Component {
                         <div className="form-group">
                             <input 
                             type="text" 
-                            className="form-control form-control-lg" 
+                            className={classnames("form-control form-control-lg", {
+                                "is-invalid": errors.summary
+                            })}
                             name="summary" 
                             value={this.state.taskSummary} 
                             onChange={this.onChange} 
                             placeholder="Task Summary"
                             />
+                            
+                            {
+                                errors.summary && (
+                                    <div className="invalid-feedback">{errors.summary}</div>
+                                )
+                            }
+
                         </div>
 
                         <div className="form-group">
@@ -71,6 +91,7 @@ class AddTask extends Component {
                             onChange={this.onChange} 
                             name="acceptance"
                             placeholder="Acceptance Criteria"></textarea>
+                            <p>{errors.acceptance}</p>
                         </div>
 
                         <div className="form-group">
