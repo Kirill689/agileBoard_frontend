@@ -12,6 +12,49 @@ class AgileBoard extends Component {
     }
 
     render() {
+
+        const {tasks} = this.props.tasks;
+
+        let boardContent;
+        let todoTasks = [];
+        let inProgressTasks = [];
+        let doneTasks = [];
+
+        const tasksSorter = tasks => {
+            if(tasks.length < 1){
+                return (
+                    <div className="alert alert-info text-center" role="alert">
+                    No taks available!
+                    </div>
+                )
+            }
+            else{
+                const tasksToDisplay = tasks.map(item => (
+                    <TaskItem key={item.taskId} task={item}></TaskItem>
+                ));
+
+                for(let i = 0; i < tasksToDisplay.length; i++){
+                    
+                    if(tasksToDisplay[i].props.task.status==="TO_DO"){
+                        todoTasks.push(tasksToDisplay[i]);
+                        console.log(todoTasks)
+                    }
+
+                    if(tasksToDisplay[i].props.task.status==="DONE"){
+                        doneTasks.push(tasksToDisplay[i]);
+                        console.log(doneTasks)
+                    }
+
+                    if(tasksToDisplay[i].props.task.status==="IN_PROGRESS"){
+                        inProgressTasks.push(tasksToDisplay[i]);
+                        console.log(inProgressTasks)
+                    }
+                }
+            }
+        }
+
+        tasksSorter(tasks);
+
         return (
 
             <div className="container">
@@ -24,18 +67,15 @@ class AgileBoard extends Component {
             <div className="container">
                 <div className="row">
 
-
                     <div className="col-md-4">
                         <div className="card text-center mb-2">
                             <div className="card-header bg-secondary text-white">
                                 <h3>TO DO</h3>
                             </div>
                         </div>
-    
-                        <TaskItem></TaskItem>
                       
+                        {todoTasks}
                     </div>
-
 
                     <div className="col-md-4">
                         <div className="card text-center mb-2">
@@ -44,10 +84,8 @@ class AgileBoard extends Component {
                             </div>
                         </div>
                         
-                        <TaskItem></TaskItem>
-
+                        {inProgressTasks}
                     </div>
-
 
                     <div className="col-md-4">
                         <div className="card text-center mb-2">
@@ -55,11 +93,9 @@ class AgileBoard extends Component {
                                 <h3>Done</h3>
                             </div>
                         </div>
-                       
-                        <TaskItem></TaskItem>
-                        
-                    </div>
 
+                        {doneTasks}                     
+                    </div>
 
                 </div>
             </div>

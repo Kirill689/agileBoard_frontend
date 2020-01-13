@@ -43,7 +43,6 @@ class AddTask extends Component {
             status: this.state.status
         }
         
-       console.log(newTask);
        this.props.addProjectTask(newTask, this.props.history); 
     }
 
